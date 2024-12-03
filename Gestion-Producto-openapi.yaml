@@ -1,0 +1,275 @@
+openapi: 3.0.0
+info:
+  title: Product API
+  description: API para gestionar productos.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+    description: Servidor local
+security:
+  - basicAuth: []
+paths:
+  /products:
+    get:
+      summary: Listar todos los productos
+      description: Obtiene una lista de todos los productos.
+      responses:
+        '200':
+          description: Lista de productos recuperada con éxito.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Crear un producto
+      description: Crea un nuevo producto.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: Producto creado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /products/{id}:
+    get:
+      summary: Listar un producto por ID
+      description: Obtiene los detalles de un producto específico por su ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Producto recuperado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      summary: Actualizar un producto
+      description: Actualiza la información de un producto existente.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto a actualizar.
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: Producto actualizado con éxito.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Eliminar un producto
+      description: Elimina un producto existente por su ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del producto a eliminar.
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Producto eliminado con éxito.
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+  /products/search:
+    get:
+      summary: Buscar productos por nombre
+      description: Busca productos cuyo nombre contenga un texto específico.
+      parameters:
+        - name: name
+          in: query
+          required: true
+          description: Nombre o parte del nombre del producto a buscar.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Productos encontrados.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          $ref: '#/components/responses/400'
+        '401':
+          $ref: '#/components/responses/401'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '500':
+          $ref: '#/components/responses/500'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Producto A
+        category:
+          type: string
+          example: Electrónica
+        price:
+          type: number
+          format: float
+          example: 99.99
+    error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+        message:
+          type: string
+        level:
+          type: string
+        description:
+          type: string
+  responses:
+    400:
+      description: La solicitud no es válida o contiene errores.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            code: 400
+            message: "Bad Request"
+            level: "Warning"
+            description: "El cliente envió datos inválidos o incompletos."
+    401:
+      description: El cliente no está autenticado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            code: 401
+            message: "Unauthorized"
+            level: "Critical"
+            description: "El cliente no proporcionó credenciales válidas."
+    403:
+      description: El cliente no tiene permisos para acceder al recurso.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            code: 403
+            message: "Forbidden"
+            level: "Critical"
+            description: "El cliente está autenticado, pero no tiene los permisos necesarios para realizar esta operación."
+    404:
+      description: El recurso solicitado no fue encontrado.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            code: 404
+            message: "Not Found"
+            level: "Info"
+            description: "El recurso especificado por la URL o el ID no existe en el servidor."
+    500:
+      description: Error interno en el servidor.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            code: 500
+            message: "Internal Server Error"
+            level: "Critical"
+            description: "Ocurrió un error inesperado en el servidor."
+    503:
+      description: El servicio no está disponible temporalmente.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/error'
+          example:
+            code: 503
+            message: "Service Unavailable"
+            level: "Critical"
+            description: "El servicio no está disponible actualmente debido a mantenimiento o sobrecarga."
