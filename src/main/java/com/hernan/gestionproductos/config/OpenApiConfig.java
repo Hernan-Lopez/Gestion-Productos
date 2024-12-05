@@ -12,8 +12,8 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.models.OpenAPI;
 
 @OpenAPIDefinition(
-	    info = @Info(title = "API Documentation", version = "1.0")//,
-	    //security = @SecurityRequirement(name = "basicAuth")
+	    info = @Info(title = "API Documentation", version = "1.0"),
+	    security = @SecurityRequirement(name = "basicAuth")
 	)
 public class OpenApiConfig {
 	
