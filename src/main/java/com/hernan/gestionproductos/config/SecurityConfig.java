@@ -15,16 +15,20 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 public class SecurityConfig {
 
-    @Bean
-    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .httpBasic(withDefaults());
-        return http.build();
-    }
+	@Bean
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+	    http
+	        .csrf().disable()
+	        .headers().frameOptions().disable()
+	        .and()
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
+	            .anyRequest().authenticated()
+	        )
+	        .httpBasic(withDefaults());
+
+	    return http.build();
+	}
 
     @Bean
     UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {

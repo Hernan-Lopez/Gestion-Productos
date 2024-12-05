@@ -1,4 +1,4 @@
-package com.hernan.gestionproductos.controller.domain;
+package com.hernan.gestionproductos.domain;
 
 
 
