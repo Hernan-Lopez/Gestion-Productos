@@ -1,7 +1,10 @@
 package com.hernan.gestionproductos.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,7 +41,14 @@ public class ProductController {
 			@ApiResponse(responseCode = "500", description = "Error interno en el servidor.", content = @Content(mediaType = "application/json", schema = @Schema(implementation = Error.class))) })
 	@GetMapping(value = "/products", produces = { "application/json" })
 	public ResponseEntity<List<Product>> productsGet() {
-		return null;
+		List<Product> response = new ArrayList<>();
+		Product p = new Product();
+		p.setCategory("w");
+		p.setId(1);
+		p.setName("s");
+		p.setPrice(2f);
+		response.add(p);
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Eliminar un producto", description = "Elimina un producto existente por su ID.", security = {
@@ -67,7 +77,14 @@ public class ProductController {
 	@GetMapping(value = "/products/{id}", produces = { "application/json" })
 	public ResponseEntity<Product> productsIdGet(
 			@Parameter(in = ParameterIn.PATH, description = "ID del producto.", required = true, schema = @Schema()) @PathVariable("id") Integer id) {
-		return null;
+		List<Product> response = new ArrayList<>();
+		Product p = new Product();
+		p.setCategory("w");
+		p.setId(1);
+		p.setName("s");
+		p.setPrice(2f);
+		response.add(p);
+		return new ResponseEntity<>(p, HttpStatus.OK);
 	}
 
 	@Operation(summary = "Actualizar un producto", description = "Actualiza la información de un producto existente.", security = {
