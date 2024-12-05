@@ -77,7 +77,7 @@
 	</dependencies>
 
 	<build>
-<!--		<finalName>product-api</finalName>-->
+		<finalName>product-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
