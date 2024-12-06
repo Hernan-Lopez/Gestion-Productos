@@ -7,12 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 
-public class Product   {
-
-	@JsonProperty("id")
-	@JsonInclude(JsonInclude.Include.NON_ABSENT)
-	@JsonSetter(nulls = Nulls.FAIL)
-	private Integer id;
+public class ProductRequest   {
 
 	@JsonProperty("name")
 	@JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -29,13 +24,6 @@ public class Product   {
 	@JsonSetter(nulls = Nulls.FAIL)
 	private Float price;
 
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
 
 	public String getName() {
 		return name;
@@ -63,7 +51,7 @@ public class Product   {
 
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", category=" + category + ", price=" + price + "]";
+		return "Product [name=" + name + ", category=" + category + ", price=" + price + "]";
 	}
 
 }
