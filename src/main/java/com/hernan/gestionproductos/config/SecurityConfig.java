@@ -43,6 +43,7 @@ public class SecurityConfig {
 //        return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
 //    }
 
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
