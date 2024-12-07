@@ -23,23 +23,25 @@ public class SecurityConfig {
 	        .and()
 	        .authorizeHttpRequests(auth -> auth
 	            .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/h2-console/**").permitAll()
+	            .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
 	            .anyRequest().authenticated()
 	        )
-	        .httpBasic(withDefaults());
+	        .httpBasic();
 
 	    return http.build();
 	}
 
-    @Bean
-    UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
-        UserDetails user = User.builder()
-            .username("a")
-            .password(passwordEncoder.encode("a"))
-            .roles("ADMIN")
-            .build();
-
-        return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
-    }
+//    @Bean
+//    UserDetailsService userDetailsService(PasswordEncoder passwordEncoder) {
+//        UserDetails user = User.builder()
+//            .username("a")
+//            .password(passwordEncoder.encode("a"))
+//            .roles("ADMIN")
+//            .build();
+//
+//        return new org.springframework.security.provisioning.InMemoryUserDetailsManager(user);
+//    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
