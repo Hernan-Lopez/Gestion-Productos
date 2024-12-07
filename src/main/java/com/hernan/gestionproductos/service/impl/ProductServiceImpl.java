@@ -19,6 +19,7 @@ import com.hernan.gestionproductos.execption.ProductException;
 import com.hernan.gestionproductos.mapper.ProductMapper;
 import com.hernan.gestionproductos.repository.ProductRepository;
 import com.hernan.gestionproductos.service.ProductService;
+import com.hernan.gestionproductos.service.StatisticService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -31,6 +32,9 @@ public class ProductServiceImpl implements ProductService {
 
 	@Autowired
 	ProductRepository productRepository;
+	
+	@Autowired
+	StatisticService statisticService;
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -42,6 +46,9 @@ public class ProductServiceImpl implements ProductService {
 			ProductEntity entity = findProductOrThrow(id);
 			ProductResponse response = ProductMapper.entityToProductResponse(entity);
 			LOGGER.info("END getProductById [response={}] [{}]", response, uuid);
+			
+			statisticService.updateStatistics(entity.getCategory(), 1);
+			
 			return response;
 		} catch (Exception e) {
 			LOGGER.error("EXCEPTION getProductById [{}] [{}]", e.getMessage(), uuid);
@@ -54,7 +61,7 @@ public class ProductServiceImpl implements ProductService {
 	public Boolean updateProductById(Long id, ProductRequest updatedProduct, UUID uuid) {
 		LOGGER.info("INIT updateProductById [id={}, product={}] [{}]", id, updatedProduct, uuid);
 		try {
-			findProductOrThrow(id);
+			ProductEntity entityBeforeUpdating = findProductOrThrow(id);
 
 			ProductEntity productEntityToUpdate = ProductMapper.productRequestToEntity(updatedProduct);
 			productEntityToUpdate.setId(id);
@@ -65,6 +72,12 @@ public class ProductServiceImpl implements ProductService {
 				entityManager.flush();
 				entityManager.clear();
 				LOGGER.info("END updateProductById [updated=true] [{}]", uuid);
+				
+				if(productEntityToUpdate.getCategory()!=null) {
+					statisticService.updateStatistics(entityBeforeUpdating.getCategory(), -1);
+			        statisticService.updateStatistics(productEntityToUpdate.getCategory(), 1);
+				}
+				
 				return true;
 			} else {
 				throw new ProductException(
@@ -81,10 +94,16 @@ public class ProductServiceImpl implements ProductService {
 	public boolean deleteProduct(Long id, UUID uuid) {
 		LOGGER.info("INIT deleteProduct [id={}] [{}]", id, uuid);
 		try {
+			ProductEntity toDelete = findProductOrThrow(id);
 			productRepository.deleteById(id);
 			Optional<ProductEntity> entity = productRepository.findById(id);
 			boolean isDeleted = !entity.isPresent();
 			LOGGER.info("END deleteProduct [deleted={}] [{}]", isDeleted, uuid);
+			
+			if(isDeleted) {
+				statisticService.updateStatistics(toDelete.getCategory(), -1);
+			}
+			
 			return isDeleted;
 		} catch (Exception e) {
 			LOGGER.error("EXCEPTION deleteProduct [{}] [{}]", e.getMessage(), uuid);
