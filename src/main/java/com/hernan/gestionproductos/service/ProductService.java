@@ -1,21 +1,23 @@
 package com.hernan.gestionproductos.service;
 
 import java.util.List;
+import java.util.UUID;
 
-import com.hernan.gestionproductos.domain.Product;
+import com.hernan.gestionproductos.domain.ProductRequest;
+import com.hernan.gestionproductos.domain.ProductResponse;
 
 public interface ProductService {
 
-	public Product getProductById(Long id);
+	public ProductResponse getProductById(Long id, UUID uuid);
 
-	public Product updateProductById(Long id, Product updatedProduct);
+	public Boolean updateProductById(Long id, ProductRequest updatedProduct, UUID uuid);
 
-	public void deleteProduct(Long id);
+	public boolean deleteProduct(Long id, UUID uuid);
 
-	public List<Product> getAllProducts();
+	public List<ProductResponse> getAllProducts(UUID uuid);
 
-	public Product saveProduct(Product product);
+	public ProductResponse saveProduct(ProductRequest product, UUID uuid);
 
-	public List<Product> searchProduct(String productName);
+	public List<ProductResponse> searchProduct(String productName, UUID uuid);
 
 }
