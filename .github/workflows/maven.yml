@@ -31,6 +31,10 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
+    - name: Run Maven with JaCoCo
+      run: mvn clean verify
+      continue-on-error: true
+
     - name: Build & push Docker image
       uses: mr-smithers-excellent/docker-build-push@v5
       with:
