@@ -1,13 +1,11 @@
 package com.hernan.gestionproductos.domain;
 
-
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSetter;
 import com.fasterxml.jackson.annotation.Nulls;
 
-public class ProductResponse   {
+public class ProductResponse {
 
 	@JsonProperty("id")
 	@JsonInclude(JsonInclude.Include.NON_ABSENT)
@@ -28,6 +26,18 @@ public class ProductResponse   {
 	@JsonInclude(JsonInclude.Include.NON_ABSENT)
 	@JsonSetter(nulls = Nulls.FAIL)
 	private Float price;
+
+	public ProductResponse() {
+		super();
+	}
+
+	public ProductResponse(Long id, String name, String category, Float price) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.category = category;
+		this.price = price;
+	}
 
 	public Long getId() {
 		return id;
