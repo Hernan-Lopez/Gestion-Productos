@@ -14,7 +14,7 @@ import com.hernan.gestionproductos.service.StatisticService;
 public class StatisticServiceImpl implements StatisticService {
 
     @Autowired
-    private StatisticRepository statisticRepository;
+    StatisticRepository statisticRepository;
 
     @Override
     @Async
