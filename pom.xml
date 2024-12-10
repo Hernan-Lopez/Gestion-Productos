@@ -165,6 +165,12 @@
 	                                </limits>
 	                            </rule>
 	                        </rules>
+	                        <excludes>
+	                        	<exclude>com/hernan/gestionproductos/config/OpenApiConfig*</exclude>
+			                    <exclude>com/hernan/gestionproductos/domain/**</exclude>
+			                    <exclude>com/hernan/gestionproductos/entity/**</exclude>
+			                    <exclude>com/hernan/gestionproductos/execption/**</exclude>
+			                </excludes>
 	                    </configuration>
 	                </execution>
 	            </executions>
