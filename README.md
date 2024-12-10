@@ -1,3 +1,4 @@
+
 # Product Management Microservice
 
 ---
@@ -24,6 +25,7 @@ El microservicio **Product Management API** permite realizar operaciones CRUD pa
 - Verifica la instalación con:
   ```bash
   java --version
+  ```
 
 ---
 
@@ -38,6 +40,7 @@ Docker se utiliza para ejecutar el microservicio como un contenedor.
 - Verifica la instalación con:
   ```bash
   docker --version
+  ```
 
 ---
 
@@ -46,10 +49,12 @@ Docker se utiliza para ejecutar el microservicio como un contenedor.
 1. **Descargar la imagen del microservicio desde Docker Hub:**
    ```bash
    docker pull hernanlopezg/product-api
+   ```
 
 2. **Ejecutar el contenedor:**
    ```bash
    docker run -p 8080:8080 hernanlopezg/product-api
+   ```
 
 Esto ejecutará el microservicio y lo expondrá en el puerto 8080.
 
@@ -86,12 +91,53 @@ El sistema utiliza autenticación basada en roles para acceder a las operaciones
 
 ---
 
+### **6. Generar reporte de cobertura de código**
+
+1. **Clonar el repositorio**  
+   Clona el repositorio en tu máquina local desde GitHub:
+   ```bash
+   git clone https://github.com/Hernan-Lopez/Gestion-Productos.git
+   ```
+
+   Cambia al directorio del proyecto:
+   ```bash
+   cd Gestion-Productos
+   ```
+
+2. **Verificar que Maven esté instalado**  
+   Asegúrate de tener Maven instalado en tu sistema. Puedes verificarlo con el siguiente comando:
+   ```bash
+   mvn -v
+   ```
+   Esto debería mostrar la versión de Maven instalada. Si no tienes Maven instalado, puedes descargarlo e instalarlo desde [Apache Maven](https://maven.apache.org/download.cgi).
+
+3. **Configurar el proyecto**  
+   Asegúrate de que las dependencias estén correctamente configuradas. Ejecuta el siguiente comando para descargar todas las dependencias necesarias:
+   ```bash
+   mvn clean install
+   ```
+
+4. **Ejecutar pruebas y generar el reporte**  
+   Ejecuta las pruebas unitarias y genera el reporte de cobertura de código con el siguiente comando:
+   ```bash
+   mvn clean test jacoco:report
+   ```
+
+5. **Verificar el reporte**  
+   El reporte de cobertura se generará en el directorio `target/site/jacoco/`. Puedes abrir el archivo `index.html` en tu navegador para revisar los detalles del reporte:
+   ```bash
+   open target/site/jacoco/index.html
+   ```
+
+---
+
 ## **Notas Adicionales**
 
-1. **Datos Persistentes:** 
+1. **Datos Persistentes:**  
    Este microservicio utiliza una base de datos en memoria (H2). Los datos cargados se reinician al detener el contenedor.
 
-2. **Actualizaciones:**
+2. **Actualizaciones:**  
    Para actualizar a la última versión del microservicio, ejecuta:
    ```bash
    docker pull hernanlopezg/product-api
+   ```
